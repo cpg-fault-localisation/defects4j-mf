@@ -7,6 +7,12 @@ single-fault dataset. It does so by adding in the test transplantation done by
 identification Done by [Dylan Callaghan and Bernd
 Fischer](https://github.com/DCallaz/bug-backtracker).
 ## Setup
+```
+python3 setup.py [--check]
+```
+where the optional flag `--check` causes the installation of the original Defects4J and 
+the multifault Defects4J to be checked.
+## Manual setup
 In order to setup this dataset, make sure you have the original
 [Defects4J](https://github.com/rjust/defects4j) dataset downloaded and set up. Once you
 have a cloned (and working) version of the origianl Defects4J, navigate to the
@@ -35,3 +41,13 @@ After this, the `fault_data` directory must be set up by extracting
 defects4j_multi configure -f /path/to/defects4j_multifault/fault_data
 ```
 which sets the default `fault_data` directory for the `defects4j_multi` script.
+## Checkout to /tmp/
+```
+python3 checkout.py [-p <project> OR -v <version>]
+```
+where
+	- `<project>` in `[chart, closure, lang, math, time]`
+    - `<version>` = `<project>_<nr>`
+
+Using the `-p` flag will check out all versions of the specified project.
+Using the `-v` flag will check out the specified version.
