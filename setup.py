@@ -30,7 +30,6 @@ else:
 rcfile.write('export D4J_HOME="{}"\n'.format(d4j_path))
 rcfile.write('export PATH="$PATH:$D4J_HOME/framework/bin"\n')
 rcfile.close()
-os.system('export D4J_HOME="{}"'.format(d4j_path))
 os.system('export PATH=$PATH:{}/framework/bin'.format(d4j_path))
 
 if '--check' in sys.argv:
