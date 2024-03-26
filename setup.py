@@ -16,13 +16,21 @@ path = os.getcwd()
 d4j_path = path + '/defects4j'
 
 if not os.path.isdir(d4j_path):
-    os.system('git clone git@github.com:rjust/defects4j.git')
+    os.system('git clone https://github.com/rjust/defects4j.git')
     os.chdir('defects4j')
     os.system('cpanm --installdeps .')
     os.system('./init.sh')
 else:
     os.chdir('defects4j')
 
+if os.path.isfile(os.path.join(os.environ['HOME'], ".bashrc")):
+    rcfile = open(os.path.join(os.environ['HOME'], ".bashrc"), "a")
+else:
+    rcfile = open(os.path.join(os.environ['HOME'], ".profile"), "a")
+rcfile.write('export D4J_HOME="{}"\n'.format(d4j_path))
+rcfile.write('export PATH="$PATH:$D4J_HOME/framework/bin"\n')
+rcfile.close()
+os.system('export D4J_HOME="{}"'.format(d4j_path))
 os.system('export PATH=$PATH:{}/framework/bin'.format(d4j_path))
 
 if '--check' in sys.argv:
