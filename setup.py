@@ -20,24 +20,24 @@ if not os.path.isdir(d4j_path):
     os.chdir('defects4j')
     os.system('cpanm --installdeps .')
     os.system('./init.sh')
+
+    if os.path.isfile(os.path.join(os.environ['HOME'], ".bashrc")):
+        rcfile = open(os.path.join(os.environ['HOME'], ".bashrc"), "a")
+    else:
+        rcfile = open(os.path.join(os.environ['HOME'], ".profile"), "a")
+    rcfile.write('export D4J_HOME="{}"\n'.format(d4j_path))
+    rcfile.write('export PATH="$PATH:$D4J_HOME/framework/bin"\n')
+    rcfile.close()
+    os.system('export PATH=$PATH:{}/framework/bin'.format(d4j_path))
 else:
     os.chdir('defects4j')
-
-if os.path.isfile(os.path.join(os.environ['HOME'], ".bashrc")):
-    rcfile = open(os.path.join(os.environ['HOME'], ".bashrc"), "a")
-else:
-    rcfile = open(os.path.join(os.environ['HOME'], ".profile"), "a")
-rcfile.write('export D4J_HOME="{}"\n'.format(d4j_path))
-rcfile.write('export PATH="$PATH:$D4J_HOME/framework/bin"\n')
-rcfile.close()
-os.system('export PATH=$PATH:{}/framework/bin'.format(d4j_path))
 
 if '--check' in sys.argv:
     # Check Defects4J installation
     lang = os.popen('defects4j info -p Lang').read()
     print(lang)
 
-os.system('git apply {}/defects4j_multi_with_jars.patch'.format(path))
+os.system('git apply {0} >/dev/null 2>&1'.format(os.path.join(path, "defects4j_multi_with_jars.patch")))
 os.system('export D4J_HOME={}'.format(d4j_path))
 os.chdir('..')
 
@@ -53,5 +53,6 @@ if '--check' in sys.argv:
             print("Multifault Defects4J correctly installed")
 
 os.chdir('fault_data')
-os.system('tar -xjf multi.tar.bz2')
-os.system('defects4j_multi configure -f {}/fault_data'.format(path))
+if (not os.path.isdir('multi')):
+    os.system('tar -xjf multi.tar.bz2')
+    os.system('defects4j_multi configure -f {}/fault_data'.format(path))
