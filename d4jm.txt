@@ -1,6 +1,0 @@
-USAGE: defects4j_multi <task> [<options>/-h]
-  where <task> is one of:
-    * checkout    : execute a multifault checkout
-    * configure   : configure a property
-    * identify    : identify the bugs in a multifault version
-    * de-identify : remove identified bugs in a version

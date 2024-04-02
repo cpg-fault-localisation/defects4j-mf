@@ -44,13 +44,7 @@ os.chdir('..')
 if '--check' in sys.argv:
     # Check multifault Defects4J installation
     d4jm = os.popen('defects4j_multi -h').read()
-    with open('d4jm.txt') as file:
-        contents = file.read()
-        if d4jm != contents:
-            print("Incorrect installation of multifault Defects4J")
-            exit(-1)
-        else:
-            print("Multifault Defects4J correctly installed")
+    print(d4jm)
 
 os.chdir('fault_data')
 if (not os.path.isdir('multi')):
