@@ -21,8 +21,11 @@ if not os.path.isdir(d4j_path):
     os.system('cpanm --installdeps .')
     os.system('./init.sh')
 
-    if os.path.isfile(os.path.join(os.environ['HOME'], ".bashrc")):
-        rcfile = open(os.path.join(os.environ['HOME'], ".bashrc"), "a")
+    shell_name = subprocess.check_output(['echo', os.environ['SHELL']], stderr=subprocess.STDOUT).decode("utf-8").strip()
+    shell_name = shell_name.split("/")[-1]
+    rc_path = os.path.join(os.environ['HOME'], f".{shell_name}rc")
+    if os.path.isfile(rc_path):
+        rcfile = open(rc_path, "a")
     else:
         rcfile = open(os.path.join(os.environ['HOME'], ".profile"), "a")
     rcfile.write('export D4J_HOME="{}"\n'.format(d4j_path))
