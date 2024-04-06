@@ -8,8 +8,11 @@ import sys
 projects = ['chart', 'closure', 'lang', 'math', 'time']
 
 def print_err_and_exit(name):
-    print("Usage: python3 {} [-p <project> OR -v <version>]".format(name))
-    print("where\n\t<project> in [chart, closure, lang, math, time]\nand\n\t<version> = <project>_<nr>")
+    print("Usage: python3 {} [-p <project> OR -v <version>] <target_dir>".format(name))
+    print("Options:")
+    print("\t<project> in [chart, closure, lang, math, time]")
+    print("\t<version> = <project>_<nr")
+    print("<target_dir> is the base dir to checkout to. (Default /tmp)")
     exit(-1)
 
 def powerset(s):
@@ -47,7 +50,8 @@ def dump_versions(proj):
     return versions
 
 def checkout(ver, dir):
-    os.system('defects4j_multi checkout -v {} -w /tmp/{}'.format(ver, dir))
+    print(f"Checking out to '{dir}'")
+    os.system('defects4j_multi checkout -v {} -w {}'.format(ver, dir))
 
 if __name__ == '__main__':
     # Reference: https://stackoverflow.com/questions/31807882/get-java-version-number-from-python#31808419
@@ -61,6 +65,10 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 3:
         print_err_and_exit(sys.argv[0])
+    
+    target_dir = "/tmp"
+    if len(sys.argv) > 3:
+        target_dir = sys.argv[3]
 
     if sys.argv[1] == '-p':
         proj = sys.argv[2]
@@ -71,7 +79,8 @@ if __name__ == '__main__':
         for ver in versions:
             nr = ver.split('-')[-1]
             dir = proj + '_' + nr
-            checkout(ver, dir)
+            target_dir = osp.join(target_dir, dir)
+            checkout(ver, target_dir)
     elif sys.argv[1] == '-v':
         dir = sys.argv[2]
         proj, nr = dir.split(sep='_')
@@ -81,7 +90,8 @@ if __name__ == '__main__':
         versions = dump_versions(proj)
         for ver in versions:
             if ver.endswith('-' + nr):
-                checkout(ver, dir)
+                target_dir = osp.join(target_dir, dir)
+                checkout(ver, target_dir)
                 break
     else:
         print_err_and_exit(sys.argv[0])
