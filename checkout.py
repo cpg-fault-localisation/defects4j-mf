@@ -79,8 +79,8 @@ if __name__ == '__main__':
         for ver in versions:
             nr = ver.split('-')[-1]
             dir = proj + '_' + nr
-            target_dir = osp.join(target_dir, dir)
-            checkout(ver, target_dir)
+            target_dir_full = osp.join(target_dir, dir)
+            checkout(ver, target_dir_full)
     elif sys.argv[1] == '-v':
         dir = sys.argv[2]
         proj, nr = dir.split(sep='_')
