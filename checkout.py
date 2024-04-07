@@ -26,6 +26,10 @@ def dump_versions(proj):
       "framework/bin/config.json")))['FAULT_DIR']
     name = proj.capitalize()
     if (not osp.isfile(osp.join(fault_dir, name+".json"))):
+        # If not found here, try simple default
+        fault_dir = osp.join(os.environ['D4J_HOME'], "../fault_data")
+    
+    if (not osp.isfile(osp.join(fault_dir, name+".json"))):
         print("ERROR: project", name, "not found")
         quit()
     sys.path.append(osp.join(os.environ['D4J_HOME'], "framework", "bin"))
