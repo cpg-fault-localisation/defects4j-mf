@@ -13,7 +13,7 @@ if version != '1.8':
     exit(-1)
 
 path = os.getcwd()
-d4j_path = path + '/defects4j'
+d4j_path = os.path.join(path, 'defects4j')
 
 if not os.path.isdir(d4j_path):
     os.system('git clone https://github.com/rjust/defects4j.git')
@@ -34,6 +34,11 @@ if not os.path.isdir(d4j_path):
     os.system('export PATH=$PATH:{}/framework/bin'.format(d4j_path))
 else:
     os.chdir('defects4j')
+    if (not os.path.samefile(os.getcwd(), d4j_path)):  # sanity check
+        os.chdir(d4j_path)
+    os.system('git reset framework 2>&1')
+    os.system('git restore framework 2>&1')
+    os.system('git clean -dfx framework 2>&1')
 
 if '--check' in sys.argv:
     # Check Defects4J installation
