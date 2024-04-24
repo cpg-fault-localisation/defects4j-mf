@@ -36,9 +36,9 @@ else:
     os.chdir('defects4j')
     if (not os.path.samefile(os.getcwd(), d4j_path)):  # sanity check
         os.chdir(d4j_path)
-    os.system('git reset 2>&1')
-    os.system('git restore . 2>&1')
-    os.system('git clean -dfx 2>&1')
+    os.system('git reset framework 2>&1')
+    os.system('git restore framework 2>&1')
+    os.system('git clean -dfx framework 2>&1')
 
 if '--check' in sys.argv:
     # Check Defects4J installation
